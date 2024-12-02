@@ -22,6 +22,14 @@ from app import db_manager
 # alias
 Base = db_manager.base
 
+class Parent(Base):
+    __tablename__ = "parents"
+    parent_id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
+    birth_date = Column(DateTime, nullable=False)
+
+    def __repr__(self):
+        return f"<Parent {self.name}>"
 
 class Account(Base):
     __tablename__ = "accounts"
