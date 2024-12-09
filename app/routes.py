@@ -1,7 +1,7 @@
 # Standard Library imports
 
 # Core Flask imports
-from flask import Blueprint
+from flask import Blueprint, render_template
 
 # Third-party imports
 
@@ -25,6 +25,34 @@ db = db_manager.session
 def before_request():
     db()
 
+from flask_wtf import FlaskForm
+from wtforms import StringField, validators, HiddenField
+from .models import Parent
+class TextForm(FlaskForm):
+    field1 = StringField('Field1', [
+        validators.InputRequired(),
+        validators.Length(max=30),
+        validators.Regexp(r'^[a-zA-Z0-9 ]*$', message="Only ASCII characters without punctuation are allowed.")
+    ])
+    field2 = StringField('Field2', [
+        validators.InputRequired(),
+        validators.Length(max=30),
+        validators.Regexp(r'^[a-zA-Z0-9 ]*$', message="Only ASCII characters without punctuation are allowed.")
+    ])
+
+@bp.route("/formular", methods=["GET", "POST"])
+def formular():
+    form = TextForm()
+    if form.validate_on_submit():
+        # Save records to the database
+        new_parent = Parent(name=form.field1.data)
+        db.add(new_parent)
+        db.commit()
+        return "Record saved to database"
+    else:
+        return render_template("formular.html", form=form)
+
+
 @bp.teardown_app_request
 def shutdown_session(response_or_exc):
     db.remove()
@@ -42,9 +70,11 @@ bp.register_error_handler(500, error_views.internal_error)
 
 # Public views
 bp.add_url_rule("/", view_func=static_views.index)
-bp.add_url_rule("/vstup", view_func=static_views.vstup_rodicu)
 
 bp.add_url_rule("/register", view_func=static_views.register)
+
+bp.add_url_rule("/test", view_func=static_views.test)
+
 
 bp.add_url_rule("/login", view_func=static_views.login)
 
