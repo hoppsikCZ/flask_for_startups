@@ -26,32 +26,51 @@ def before_request():
     db()
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, validators, HiddenField
-from .models import Parent
-class TextForm(FlaskForm):
-    field1 = StringField('Field1', [
-        validators.InputRequired(),
-        validators.Length(max=30),
-        validators.Regexp(r'^[a-zA-Z0-9 ]*$', message="Only ASCII characters without punctuation are allowed.")
-    ])
-    field2 = StringField('Field2', [
-        validators.InputRequired(),
-        validators.Length(max=30),
-        validators.Regexp(r'^[a-zA-Z0-9 ]*$', message="Only ASCII characters without punctuation are allowed.")
-    ])
+from wtforms import StringField, validators
+from .models import Person
+from flask import request, redirect, url_for
 
-@bp.route("/formular", methods=["GET", "POST"])
+class FormPerson(FlaskForm):
+    name = StringField('Name', [
+        validators.InputRequired(),
+        validators.Length(max=30),
+        validators.Regexp(r'^[a-zA-Z0-9 ]*$', message="Only ASCII characters without punctuation are allowed.")
+    ])
+    surname = StringField('Surname', [
+        validators.InputRequired(),
+        validators.Length(max=30),
+        validators.Regexp(r'^[a-zA-Z0-9 ]*$', message="Only ASCII characters without punctuation are allowed.")
+    ])
+    email = StringField('Email', [
+        validators.InputRequired(),
+        validators.Length(max=50),
+        validators.Email(message="Invalid email address.")
+    ])
+    
+@bp.route("/person", methods=["GET", "POST"])
 def formular():
-    form = TextForm()
+    form = FormPerson()
     if form.validate_on_submit():
         # Save records to the database
-        new_parent = Parent(name=form.field1.data)
-        db.add(new_parent)
+        new_person = Person(name=form.name.data, surname=form.surname.data, email=form.email.data)
+        db.add(new_person)
         db.commit()
         return "Record saved to database"
     else:
-        return render_template("formular.html", form=form)
+        return render_template("formularPerson.html", form=form)
 
+
+@bp.route("/persons", methods=["GET", "POST"])
+def list_persons():
+    if request.method == "POST":
+        selected_ids = request.form.getlist("selected_ids")
+        if selected_ids:
+            Person.query.filter(Person.person_id.in_(selected_ids)).delete(synchronize_session=False)
+            db.commit()
+            return redirect(url_for("routes.list_persons"))
+    
+    persons = Person.query.all()
+    return render_template("list_persons.html", persons=persons)
 
 @bp.teardown_app_request
 def shutdown_session(response_or_exc):
