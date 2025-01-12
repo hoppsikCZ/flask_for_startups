@@ -34,3 +34,5 @@ logs
 migrations/schema.sql
 .flaskenv
 .vscode
+
+site.db

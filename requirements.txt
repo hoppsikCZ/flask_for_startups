@@ -3,13 +3,16 @@ annotated-types==0.7.0
 attrs==21.4.0
 bcrypt==3.2.0
 bleach==4.1.0
-cffi==1.15.0
+blinker==1.9.0
+cffi==1.17.1
 click==8.0.4
+colorama==0.4.6
 dnspython==2.7.0
 email_validator==2.2.0
 Flask==2.0.3
 Flask-Login==0.5.0
-greenlet==1.1.2
+Flask-WTF==0.15.1
+greenlet==3.1.1
 idna==3.10
 iniconfig==1.1.1
 itsdangerous==2.1.0
@@ -19,7 +22,7 @@ MarkupSafe==2.1.0
 marshmallow==3.14.1
 packaging==21.3
 pluggy==1.0.0
-psycopg2-binary==2.9.9
+psycopg2-binary==2.9.10
 py==1.11.0
 pycparser==2.21
 pydantic==2.9.2
