@@ -36,3 +36,4 @@ migrations/schema.sql
 .vscode
 
 site.db
+app/__pycache__

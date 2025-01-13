@@ -10,11 +10,12 @@ COPY . /app
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Make port 80 available to the world outside this container
-EXPOSE 80
-
 # Define environment variable
-ENV NAME World
+ENV FLASK_APP=flask_for_startups
+ENV FLASK_RUN_HOST=0.0.0.0
+
+# Make port 5000 available to the world outside this container
+EXPOSE 5000
 
 # Run Alembic migration and then start the Flask application
-CMD alembic -c migrations/alembic.ini -x db=dev upgrade head && flask run
+CMD ["sh", "-c", "python -m alembic -c migrations/alembic.ini -x db=dev upgrade head && python -m flask run"]
