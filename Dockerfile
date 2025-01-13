@@ -17,4 +17,4 @@ EXPOSE 80
 ENV NAME World
 
 # Run Alembic migration and then start the Flask application
-CMD alembic -c migrations/alembic.ini -x db=dev upgrade head && python app.py
+CMD alembic -c migrations/alembic.ini -x db=dev upgrade head && flask run
