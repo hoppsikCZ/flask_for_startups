@@ -1,15 +1,9 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>List of Persons</title>
     <style>
-        h1 {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 1rem 0;
-            margin: 0;
-        }
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -22,6 +16,21 @@
             padding: 1rem 0;
             text-align: center;
         }
+        nav {
+            background-color: #444;
+            overflow: hidden;
+        }
+        nav a {
+            float: left;
+            display: block;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #555;
+        }
         main {
             padding: 2rem;
         }
@@ -33,12 +42,9 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         table {
-            width: 80%;
+            width: 100%;
             border-collapse: collapse;
-            margin: 1rem auto;
-            padding: 10px;
-            border-radius: 8px;
-            overflow: hidden;
+            margin: 1rem 0;
         }
         th, td {
             padding: 0.5rem;
@@ -82,31 +88,45 @@
     </script>
 </head>
 <body>
-    <h1>List of Persons</h1>
-    <form method="POST" action="{{ url_for('routes.list_persons') }}">
-        <table>
-            <thead>
-                <tr>
-                    <th>Select</th>
-                    <th>Name</th>
-                    <th>Surname</th>
-                    <th>Email</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for person in persons %}
-                <tr onclick="toggleCheckbox(this);">
-                    <td><input type="checkbox" name="selected_ids" value="{{ person.person_id }}" onclick="event.stopPropagation();"></td>
-                    <td>{{ person.name }}</td>
-                    <td>{{ person.surname }}</td>
-                    <td>{{ person.email }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <div class="button-container">
-            <button type="submit">Delete Selected</button>
-        </div>
-    </form>
+    <header>
+        <h1>List of Persons</h1>
+    </header>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/person">Person</a>
+        <a href="/persons">Persons</a>
+    </nav>
+    <main>
+        <section>
+            <form method="POST" action="{{ url_for('routes.list_persons') }}">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Select</th>
+                            <th>Name</th>
+                            <th>Surname</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for person in persons %}
+                        <tr onclick="toggleCheckbox(this);">
+                            <td><input type="checkbox" name="selected_ids" value="{{ person.person_id }}" onclick="event.stopPropagation();"></td>
+                            <td>{{ person.name }}</td>
+                            <td>{{ person.surname }}</td>
+                            <td>{{ person.email }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="button-container">
+                    <button type="submit">Delete Selected</button>
+                </div>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Our Startup. All rights reserved.</p>
+    </footer>
 </body>
-</html></div>
+</html>

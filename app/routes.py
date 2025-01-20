@@ -51,7 +51,6 @@ class FormPerson(FlaskForm):
 def formular():
     form = FormPerson()
     if form.validate_on_submit():
-        # Save records to the database
         new_person = Person(name=form.name.data, surname=form.surname.data, email=form.email.data)
         db.add(new_person)
         db.commit()
