@@ -1,65 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Home</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 1rem 0;
-            text-align: center;
-        }
-        nav {
-            background-color: #444;
-            overflow: hidden;
-        }
-        nav a {
-            float: left;
-            display: block;
-            color: #fff;
-            text-align: center;
-            padding: 1rem;
-            text-decoration: none;
-        }
-        nav a:hover {
-            background-color: #555;
-        }
-        main {
-            padding: 2rem;
-            text-align: center;
-        }
-        footer {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 1rem 0;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>Welcome to Flask for Startups</h1>
-    </header>
-    <nav>
-        <a href="/">Home</a>
-        <a href="/person">Person</a>
-        <a href="/persons">Persons</a>
-    </nav>
-    <main>
-        <h2>Select an option from the menu</h2>
-    </main>
-    <footer>
-        <p>&copy; 2025 flask_for_startups</p>
-    </footer>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <h1>{{ welcome_message }}</h1>
+    <p>{{ content_message }}</p>
+{% endblock %}
